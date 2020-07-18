@@ -8,7 +8,7 @@ class Play extends Phaser.Scene{
         // load images/tile sprites
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
-        this.load.image('starfield', './assets/starfield.png');
+        this.load.image('starfield', './assets/starfield2.png');
 
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', 
@@ -132,7 +132,7 @@ class Play extends Phaser.Scene{
         }
         
         // scroll tile sprite
-        this.starfield.tilePositionX -= 4;
+        this.starfield.tilePositionY -= 2;
 
         if (!this.gameOver) {
         // update rocket

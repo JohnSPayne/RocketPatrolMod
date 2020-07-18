@@ -10,11 +10,14 @@
 
 //Randomize each spaceship's movement direction at the start of each play (10)
 
+//Create a new scrolling tile sprite for the background (10)
+
 "use strict"
 let config = {
     type: Phaser.AUTO,
     width: 640,
     height: 480,
+    autoCenter: true,
     scene: [ Menu, Play ]
 }
 
@@ -28,3 +31,4 @@ game.settings = {
     spaceshipSpeed: 3,
     gameTimer: 60000,
 }
+
