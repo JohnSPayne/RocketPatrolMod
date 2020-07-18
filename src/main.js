@@ -8,6 +8,7 @@
 
 //Implement the speed increase that happens after 30 seconds in the original game (10)
 
+//Randomize each spaceship's movement direction at the start of each play (10)
 
 "use strict"
 let config = {

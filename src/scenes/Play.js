@@ -36,13 +36,28 @@ class Play extends Phaser.Scene{
         this.p1Rocket = new Rocket(this, game.config.width/2, 431, 
             'rocket', 0).setScale(0.5, 0.5).setOrigin(0, 0);
 
-        // add spaceships (x3)
-        this.ship01 = new Spaceship(this, game.config.width + 192, 132, 
-            'spaceship', 0, 30).setOrigin(0, 0);
-        this.ship02 = new Spaceship(this, game.config.width + 96, 196, 
-            'spaceship', 0, 20).setOrigin(0, 0);
-        this.ship03 = new Spaceship(this, game.config.width, 260, 
-            'spaceship', 0, 10).setOrigin(0, 0);
+        // add spaceships (x3) + random direction
+        if(Phaser.Math.Between(0, 1) == 0){
+            this.ship01 = new Spaceship(this, game.config.width + 192, 132, 
+                'spaceship', 0, 30).setOrigin(0, 0);
+        }else{
+            this.ship01 = new Spaceship2(this, 0 - 192 - 63, 132, 
+            'spaceship', 0, 30).setOrigin(0, 0).setFlipX(180);
+        }
+        if(Phaser.Math.Between(2, 3) == 3){
+            this.ship02 = new Spaceship(this, game.config.width + 96, 196, 
+                'spaceship', 0, 20).setOrigin(0, 0);
+        }else{
+            this.ship02 = new Spaceship2(this, 0 - 96 - 63, 196, 
+                'spaceship', 0, 20).setOrigin(0, 0).setFlipX(180);
+        }
+        if(Phaser.Math.Between(4, 5) == 4){
+            this.ship03 = new Spaceship(this, game.config.width, 260, 
+                'spaceship', 0, 10).setOrigin(0, 0);
+        }else{
+            this.ship03 = new Spaceship2(this, 0-63, 260, 
+                'spaceship', 0, 10).setOrigin(0, 0).setFlipX(180);
+        }
 
         // animation config
         this.anims.create({
@@ -79,10 +94,10 @@ class Play extends Phaser.Scene{
         this.add.text(530, 54, this.highScore, this.scoreConfig);
         this.FIRE = this.add.text(250, 54, 'FIRE', this.scoreConfig);
         
-        this.timedEvent = this.time.delayedCall(5000, onEvent, [], this);
+        this.timedEvent = this.time.delayedCall(10000, onEvent, [], this);
         function onEvent ()
         {
-            game.settings.spaceshipSpeed = 6;
+            game.settings.spaceshipSpeed *= 2;
         }
 
         // game over flag
@@ -108,6 +123,7 @@ class Play extends Phaser.Scene{
         //this.FIRE.visible = !this.FIRE.visible; 
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyF)) {
+            game.settings.spaceshipSpeed /= 2;
             this.scene.restart(this.p1Score);
         }
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
