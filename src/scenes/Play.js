@@ -4,7 +4,7 @@ class Play extends Phaser.Scene{
         super("playScene");
     }
 
-    preload(){
+    preload() {
         // load images/tile sprites
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
@@ -16,6 +16,7 @@ class Play extends Phaser.Scene{
     }
 
     create() {
+        
         // place tile sprite bg
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
 
@@ -51,7 +52,7 @@ class Play extends Phaser.Scene{
         this.p1Score = 0;
 
         // score display
-        let scoreConfig = {
+        this.scoreConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
             backgroundColor: '#F3B141',
@@ -61,20 +62,29 @@ class Play extends Phaser.Scene{
                 top: 5,
                 bottom: 5,
             },
-            fixedWidth: 100
+            fixedWidth: 0
         }
-        this.scoreLeft = this.add.text(69, 54, this.p1Score, scoreConfig);
+        
+        if(this.highScore > 0){
+            this.highScore = this.highScore;
+        }
+        else {this.highScore = 0;}
+        console.log(this.highScore);
+
+        this.scoreLeft = this.add.text(69, 54, this.p1Score, this.scoreConfig);
+        this.add.text(330, 54, 'High Score:', this.scoreConfig);
+        this.add.text(530, 54, this.highScore, this.scoreConfig);
 
         // game over flag
         this.gameOver = false;
 
         // 60-second play clock
-        scoreConfig.fixedWidth = 0;
+        this.scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width/2, game.config.height/2, 
-                'GAME OVER', scoreConfig).setOrigin(0.5);
+                'GAME OVER', this.scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 
-                '(F)ire to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
+                '(F)ire to Restart or ← for Menu', this.scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
 
@@ -90,7 +100,7 @@ class Play extends Phaser.Scene{
             this.scene.restart(this.p1Score);
         }
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            this.scene.start("menuScene");
+            this.scene.start("menuScene", {highScore: this.highScore});
         }
         
         // scroll tile sprite
@@ -145,5 +155,9 @@ class Play extends Phaser.Scene{
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
         this.sound.play('sfx_explosion');
+        if (this.highScore < this.p1Score){
+            this.highScore = this.p1Score;
+            this.add.text(530, 54, this.highScore, this.scoreConfig);
+        }
     }
 }

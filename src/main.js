@@ -1,4 +1,6 @@
-//Student Name: John Payne
+//Student Name: John Payne(1724413)
+//Points Breakdown: 
+
 "use strict"
 let config = {
     type: Phaser.AUTO,
@@ -15,5 +17,5 @@ let keyF, keyLEFT, keyRIGHT;
 // define game settings
 game.settings = {
     spaceshipSpeed: 3,
-    gameTimer: 60000
+    gameTimer: 60000,
 }

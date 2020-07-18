@@ -4,6 +4,11 @@ class Menu extends Phaser.Scene{
         super("menuScene");
     }
 
+    init(data) {
+        //score
+        this.highScore = data.highScore;
+    }
+
     preload() {
         // load audio
         this.load.audio('sfx_select', './assets/blip_select12.wav');
@@ -12,6 +17,7 @@ class Menu extends Phaser.Scene{
     }
 
     create(){
+
         // menu display
         let menuConfig = {
             fontFamily: 'Courier',
@@ -31,8 +37,12 @@ class Menu extends Phaser.Scene{
         let centerY = game.config.height/2;
         let textSpacer = 64;
         
-        this.add.text(centerX, centerY - textSpacer, 'ROCKET PATROL', 
+        this.add.text(480, 65, 'High Score: ' + this.highScore, 
         menuConfig).setOrigin(0.5);
+        menuConfig.fontSize = '38px';
+        this.add.text(centerX, centerY - textSpacer - 10, 'ROCKET PATROL', 
+        menuConfig).setOrigin(0.5);
+        menuConfig.fontSize = '28px';
         this.add.text(centerX, centerY, 'Use ←→ arrows to move & (F) to Fire', 
         menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
@@ -52,7 +62,7 @@ class Menu extends Phaser.Scene{
           // easy mode
           game.settings = {
             spaceshipSpeed: 3,
-            gameTimer: 60000    
+            gameTimer: 10000    
           }
           this.sound.play('sfx_select');
           this.scene.start("playScene");    
