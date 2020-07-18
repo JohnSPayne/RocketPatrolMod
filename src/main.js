@@ -12,6 +12,8 @@
 
 //Create a new scrolling tile sprite for the background (10)
 
+//Allow the player to control the Rocket after it's fired (10)
+
 "use strict"
 let config = {
     type: Phaser.AUTO,

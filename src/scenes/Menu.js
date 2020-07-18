@@ -39,7 +39,7 @@ class Menu extends Phaser.Scene{
         let centerY = game.config.height/2;
         let textSpacer = 64;
         
-        this.add.text(480, 65, 'High Score: ' + this.highScore, 
+        this.add.text(320, 65, 'High Score: ' + this.highScore, 
         menuConfig).setOrigin(0.5);
         menuConfig.fontSize = '38px';
         this.add.text(centerX, centerY - textSpacer - 10, 'ROCKET PATROL', 
