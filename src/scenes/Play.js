@@ -77,6 +77,10 @@ class Play extends Phaser.Scene{
         this.scoreLeft = this.add.text(69, 54, this.p1Score, this.scoreConfig);
         this.add.text(330, 54, 'High Score:', this.scoreConfig);
         this.add.text(530, 54, this.highScore, this.scoreConfig);
+        this.FIRE = this.add.text(250, 54, 'FIRE', this.scoreConfig);
+        
+        
+
 
         // game over flag
         this.gameOver = false;
@@ -98,6 +102,7 @@ class Play extends Phaser.Scene{
     }
 
     update(){
+        //this.FIRE.visible = !this.FIRE.visible; 
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyF)) {
             this.scene.restart(this.p1Score);
@@ -146,6 +151,13 @@ class Play extends Phaser.Scene{
     }
 
     shipExplode(ship) {
+        // FIRE Blink: Source: https://labs.phaser.io/edit.html?src=src/time\timer%20event.js
+        this.FIRE.visible = !this.FIRE.visible; 
+        this.timedEvent = this.time.delayedCall(100, onEvent, [], this);
+        function onEvent ()
+        {
+            this.FIRE.visible = !this.FIRE.visible;
+        }
         ship.alpha = 0;                         // temporarily hide ship
         // create explosion sprite at ship's position
         let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
