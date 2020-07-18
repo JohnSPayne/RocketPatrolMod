@@ -16,7 +16,11 @@ class Play extends Phaser.Scene{
     }
 
     create() {
-        
+        // music
+        this.music = this.sound.add('sfx_anotherWorld');
+        this.music.loop = true;
+        this.music.play();
+
         // place tile sprite bg
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
 
@@ -100,6 +104,7 @@ class Play extends Phaser.Scene{
         }
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start("menuScene", {highScore: this.highScore});
+            this.music.stop();
         }
         
         // scroll tile sprite
