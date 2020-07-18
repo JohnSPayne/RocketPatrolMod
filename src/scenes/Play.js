@@ -69,7 +69,6 @@ class Play extends Phaser.Scene{
             this.highScore = this.highScore;
         }
         else {this.highScore = 0;}
-        console.log(this.highScore);
 
         this.scoreLeft = this.add.text(69, 54, this.p1Score, this.scoreConfig);
         this.add.text(330, 54, 'High Score:', this.scoreConfig);

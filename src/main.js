@@ -1,5 +1,8 @@
 //Student Name: John Payne(1724413)
 //Points Breakdown: 
+//Track a high score that persists across scenes and display it in the UI (10)
+
+
 
 "use strict"
 let config = {

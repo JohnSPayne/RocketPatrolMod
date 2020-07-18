@@ -6,7 +6,10 @@ class Menu extends Phaser.Scene{
 
     init(data) {
         //score
-        this.highScore = data.highScore;
+        if(data.highScore > 0){
+          this.highScore = data.highScore;
+        }
+        else{this.highScore = 0;}
     }
 
     preload() {
