@@ -79,8 +79,11 @@ class Play extends Phaser.Scene{
         this.add.text(530, 54, this.highScore, this.scoreConfig);
         this.FIRE = this.add.text(250, 54, 'FIRE', this.scoreConfig);
         
-        
-
+        this.timedEvent = this.time.delayedCall(5000, onEvent, [], this);
+        function onEvent ()
+        {
+            game.settings.spaceshipSpeed = 6;
+        }
 
         // game over flag
         this.gameOver = false;

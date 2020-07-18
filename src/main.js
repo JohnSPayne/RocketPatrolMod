@@ -6,7 +6,7 @@
 //Add your own (copyright-free) background music to the Play scene (10)
 //https://freemusicarchive.org/search?adv=1&quicksearch=space&&
 
-//
+//Implement the speed increase that happens after 30 seconds in the original game (10)
 
 
 "use strict"
