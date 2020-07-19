@@ -74,6 +74,7 @@ class Play extends Phaser.Scene{
         this.scoreConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
+            fontStyle: '',
             backgroundColor: '#F3B141',
             color: '#843605',
             align: 'right',
@@ -93,8 +94,20 @@ class Play extends Phaser.Scene{
         this.add.text(330, 54, 'High Score:', this.scoreConfig);
         this.add.text(530, 54, this.highScore, this.scoreConfig);
         this.FIRE = this.add.text(250, 54, 'FIRE', this.scoreConfig);
-        
-        this.timedEvent = this.time.delayedCall(10000, onEvent, [], this);
+
+        this.timeLeft = game.settings.gameTimer / 1000;
+        this.scoreConfig.color = 'red';
+        this.scoreConfig.backgroundColor = '';
+        this.scoreConfig.fontStyle = 'bold';
+        this.scoreConfig.fontSize = '38px',
+        this.timeLeft2 = this.add.text(140, 50, this.timeLeft, this.scoreConfig);
+        this.scoreConfig.fontSize = '28px',
+        this.scoreConfig.fontStyle = '';
+        this.scoreConfig.backgroundColor = '#F3B141';
+        this.scoreConfig.color = '#843605';
+
+        this.timedEvent = this.time.delayedCall(game.settings.gameTimer/2, 
+            onEvent, [], this);
         function onEvent ()
         {
             game.settings.spaceshipSpeed *= 2;
@@ -109,7 +122,7 @@ class Play extends Phaser.Scene{
             this.add.text(game.config.width/2, game.config.height/2, 
                 'GAME OVER', this.scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 
-                '(F)ire to Restart or ← for Menu', this.scoreConfig).setOrigin(0.5);
+                '(F)ire to Restart or ↓ for Menu', this.scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
 
@@ -117,16 +130,16 @@ class Play extends Phaser.Scene{
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
     }
 
     update(){
-        //this.FIRE.visible = !this.FIRE.visible; 
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyF)) {
             game.settings.spaceshipSpeed /= 2;
             this.scene.restart(this.p1Score);
         }
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyDOWN)) {
             this.scene.start("menuScene", {highScore: this.highScore});
             this.music.stop();
         }
@@ -189,7 +202,23 @@ class Play extends Phaser.Scene{
         // score increment and repaint
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
-        this.sound.play('sfx_explosion');
+        switch(Phaser.Math.Between(1, 5)){
+            case 1:
+                this.sound.play('sfx_explosion');
+                break;
+            case 2:
+                this.sound.play('sfx_explosion2');
+                break;
+            case 3:
+                this.sound.play('sfx_explosion3');
+                break;
+            case 4:
+                this.sound.play('sfx_explosion4');
+                break;
+            case 5:
+                this.sound.play('sfx_explosion5');
+                break;
+        }
         if (this.highScore < this.p1Score){
             this.highScore = this.p1Score;
             this.add.text(530, 54, this.highScore, this.scoreConfig);
