@@ -95,20 +95,10 @@ class Play extends Phaser.Scene{
         this.add.text(530, 54, this.highScore, this.scoreConfig);
         this.FIRE = this.add.text(250, 54, 'FIRE', this.scoreConfig);
 
-        this.timeLeft = game.settings.gameTimer / 1000;
-        this.scoreConfig.color = 'red';
-        this.scoreConfig.backgroundColor = '';
-        this.scoreConfig.fontStyle = 'bold';
-        this.scoreConfig.fontSize = '38px',
-        this.timeLeft2 = this.add.text(140, 50, this.timeLeft, this.scoreConfig);
-        this.scoreConfig.fontSize = '28px',
-        this.scoreConfig.fontStyle = '';
-        this.scoreConfig.backgroundColor = '#F3B141';
-        this.scoreConfig.color = '#843605';
-
-        this.timedEvent = this.time.delayedCall(game.settings.gameTimer/2, 
-            onEvent, [], this);
-        function onEvent ()
+        // speed up halfway gametime
+        this.timedEvent2 = this.time.delayedCall(game.settings.gameTimer/2, 
+            onEvent2, [], this);
+        function onEvent2 ()
         {
             game.settings.spaceshipSpeed *= 2;
         }
@@ -131,6 +121,43 @@ class Play extends Phaser.Scene{
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    
+        // time remaining, source and credit: https://phaser.discourse.group/t/countdown-timer/2471/4
+        this.timeLeft = game.settings.gameTimer / 1000;
+        this.scoreConfig.color = 'red';
+        this.scoreConfig.backgroundColor = '';
+        this.scoreConfig.fontStyle = 'bold';
+        this.scoreConfig.fontSize = '38px',
+        this.timeLeft2 = this.add.text(140, 50, this.timeLeft, this.scoreConfig);
+        this.scoreConfig.fontSize = '28px',
+        this.scoreConfig.fontStyle = '';
+        this.scoreConfig.backgroundColor = '#F3B141';
+        this.scoreConfig.color = '#843605';
+        
+        //this.text = this.add.text(62, 62, formatTime(this.timeLeft));
+        this.timedEvent = this.time.addEvent({ 
+            delay: 1000, 
+            callback: onEvent, 
+            callbackScope: this, 
+            loop: true, 
+        });
+        /*function formatTime(seconds){
+            // Minutes
+            var minutes = Math.floor(seconds/60);
+            // Seconds
+            var partInSeconds = seconds%60;
+            // Adds left zeros to seconds
+            partInSeconds = partInSeconds.toString().padStart(2,'0');
+            // Returns formated time
+            return `${minutes}:${partInSeconds}`;
+        }*/
+        function onEvent ()
+        {
+            if(!this.gameOver){
+                this.timeLeft -= 1; // One second
+            }
+            this.timeLeft2.setText(this.timeLeft);
+        }
     }
 
     update(){

@@ -18,6 +18,7 @@
 
 //Create 4 new explosion SFX and randomize which one plays on impact (15)
 
+//Display the time remaining (in seconds) on the screen (15)
 "use strict"
 let config = {
     type: Phaser.AUTO,
